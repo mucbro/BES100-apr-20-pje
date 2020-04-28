@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LibraryApi.Domain;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +34,10 @@ namespace LibraryApi
             //if any class requires ISystemTime, give me SystemTime Service
             //every time an http request is made, we make an instance of the controller and we set up the system time here.
             // the configuration for how i run in production 1
+            services.AddDbContext<LibraryDataContext>(options =>
+
+                options.UseSqlServer(@"server=.\sqlexpress;database=library;integrated security=true") //Fix this blatant garbage
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

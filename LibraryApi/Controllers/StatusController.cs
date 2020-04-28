@@ -41,10 +41,24 @@ namespace LibraryApi.Controllers
 
         //GET /employees?dept=DEV
         [HttpGet("employees")]
-        public ActionResult GetEmployees([FromQuery] string dept= "All")
+        public ActionResult GetEmployees([FromQuery] string dept = "All")
         {
             return Ok($"Returning employees for department {dept}");
         }
+
+
+        [HttpPost("employees")]
+        public ActionResult HireEmployee([FromBody]EmployeeCreateRequest employeeToHire)
+        {
+            return Ok($"Hiring {employeeToHire.lastName} as a {employeeToHire.department}");
+        }
+
+        [HttpGet("whoami")]
+        public ActionResult WhoAmI([FromHeader(Name = "User-Agent")] string userAgent)
+        {
+            return Ok($"I see you are running {userAgent}");
+        }
+
     }
 
     public class GetStatusResponse
@@ -53,4 +67,13 @@ namespace LibraryApi.Controllers
         public string CheckedBy { get; set; }
         public DateTime WhenLastChecked { get; set; }
     }
+
+
+    public class EmployeeCreateRequest
+    {
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string department { get; set; }
+    }
+
 }
